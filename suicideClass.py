@@ -30,7 +30,7 @@ class suiciders(pygame.sprite.Sprite):
 
         self.HSIZE = self.SIZE//2
 
-        self.met = pygame.image.load("enemy_1.png").convert_alpha()
+        self.met = pygame.image.load("enemy_2.png").convert_alpha()
         self.met = pygame.transform.scale(self.met, (self.SIZE, self.SIZE))
         self.image.blit(self.met, (0, 0))
 
