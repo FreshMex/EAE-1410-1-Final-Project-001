@@ -111,7 +111,7 @@ def main():
   power = 1
   makeSuiciders()
   theBox = 0
-  hitbox = spaceSHIP(SPSpos, (1,1), screen)
+  hitbox = spaceSHIP(SPSpos, (15,15), screen)
   
   while True: 
     for event in pygame.event.get():
