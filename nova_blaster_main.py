@@ -27,6 +27,7 @@ bulletList = pygame.sprite.Group()
 suicideLIST = pygame.sprite.Group()
 powerupLIST = pygame.sprite.Group()
 
+dispFont = pygame.font.SysFont("percexptm.ttf", 24)
 STARTspPOS = vector(600,450)
 MAX_STARS  = 250
 STAR_SPEED = 2
@@ -45,15 +46,15 @@ def makeSuiciders():
             v2 = vector.fromPoints((randx, randy), (SPSpos.vX, SPSpos.vY))
             v2 = v2.normalizeV2()
 
-            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 60))
+            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 100))
             numSuicide -= 1
 
 def makePowerup():
     numPowerup = 1
 
     while numPowerup > 0:
-        randx = randrange(100, 1100)
-        randy = randrange(100, 800)
+        randx = randrange(0, 1200)
+        randy = randrange(0, 900)
 
         v1 = vector(randx, randy)
 
@@ -112,10 +113,10 @@ def main():
   rotationDIRcc = 0
   power = 1
   health = 3
+  score = 0
   makeSuiciders()
   theBox = 0
-  hitbox = spaceSHIP(SPSpos, (5,5), screen)
-  
+  hitbox = spaceSHIP(SPSpos, (1,1), screen)
   while True: 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -172,18 +173,14 @@ def main():
         b.bulBlit()
       else:
         bulletList.remove(b)
-    for s in suicideLIST:
-      if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
-        s.displaySuicider()
-      else:
-        suicideLIST.remove(s)
-        
+
     suiciderBulletCollisions = pygame.sprite.groupcollide(suicideLIST, bulletList, True, True)
     
     suiciderShipCollisions = pygame.sprite.spritecollide(hitbox, suicideLIST, True)
 
     powerupShipCollisions = pygame.sprite.spritecollide(hitbox, powerupLIST, True)
-   
+    for SX in suicideLIST:
+       SX.displaySuicider()
     for PX in powerupLIST:
         PX.displayPowerup()
     if len(suicideLIST) < 29:
@@ -197,9 +194,21 @@ def main():
       screen.fill((0,0,0))
       screen.blit(GOScreen, (350,400))
       pygame.time.wait(300)
+
+    if suiciderBulletCollisions:
+      score += 100
+      suiciderBulletCollisions = False
+    if powerupShipCollisions:
+      score += 1000
+      powerupShipCollisions = False
     hitbox.update(drawBul)
     hitbox.displaySpaceSHIP()
-            
+    HEALTHTEXT = dispFont.render(('Hull: {0}'.format(health)), True, (50,190,75), None)
+    HEALTHTEXT = pygame.transform.scale(HEALTHTEXT, (110, 87))
+    screen.blit(HEALTHTEXT, (25,25))
+    POINTSTEXT = dispFont.render(('Score: {0}'.format(score)), True, (50,190,75), None)
+    POINTSTEXT = pygame.transform.scale(POINTSTEXT, (400, 87))
+    screen.blit(POINTSTEXT, (700,25))
     move_and_draw_stars(screen)
     vector1 = tempVector.rotateV2(-spriteROT)
     screen.blit(RotSPS,drawSPS) 
