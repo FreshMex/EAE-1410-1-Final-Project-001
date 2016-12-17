@@ -1,4 +1,4 @@
-# EAE-1410-1-Final-Project 
+# EAE-1410-1-Final-Project: Nova Blaster 
 #Jacob Gillars, Giovanni Varuola, Evan Hirn
 
 
@@ -10,3 +10,5 @@ Objective:
 Shoot as many enemies as you can, while collecting the gold discs. Shooting an enemy is worth 100 points,
 collecting a disc is worth 1000. You can take three hits before you die, and get a game over. Shoot for the
 highest score!
+
+(Double click the nova_blaster_main file to start the game)
