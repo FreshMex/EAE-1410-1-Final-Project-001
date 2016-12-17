@@ -5,7 +5,7 @@ from math import *
     
 class bullet(pygame.sprite.Sprite):
 
-    def __init__(self, pos, surf, vector, speed, size, rot):
+    def __init__(self, pos, surf, vector, speed, size, rot, img):
 
         pygame.sprite.Sprite.__init__(self)
         self.SURF = surf
@@ -19,7 +19,7 @@ class bullet(pygame.sprite.Sprite):
         self.rect.x = pos.vX
         self.rect.y = pos.vY
         self.HSIZE = self.SIZE//2
-        self.bul = pygame.image.load('bullets.jpg').convert_alpha()
+        self.bul = pygame.image.load(img).convert_alpha()
         self.bul = pygame.transform.scale(self.bul, (self.SIZE//2, self.SIZE))
         self.bul = pygame.transform.rotate(self.bul, rot)
         self.image.blit(self.bul, (0, 0))
