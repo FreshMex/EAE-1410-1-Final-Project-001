@@ -11,15 +11,17 @@ from vecClass import vector
 from suicideClass import suiciders
 from spaceSHIPclass import spaceSHIP
 from powerupClass import powerup
+from time import *
 
 ship = 'ship_idle.png'
+DMGShip = 'ship_idle_damaged.png'
 bulImg = 'player_attack_normal.png'
 gameOver = 'game_over.png'
 pygame.init()
 FPSCLOCK = pygame.time.Clock()
 bulletFlySpeed = 5
 screen = pygame.display.set_mode((1200,900),0,32)
-SPShip = pygame.image.load(ship).convert_alpha()
+
 GOScreen = pygame.image.load(gameOver).convert_alpha()
 SPSpos = vector(600,450)
 SPSrot = 0
@@ -53,8 +55,8 @@ def makePowerup():
     numPowerup = 1
 
     while numPowerup > 0:
-        randx = randrange(100, 1100)
-        randy = randrange(100, 800)
+        randx = randrange(0, 1200)
+        randy = randrange(0, 900)
 
         v1 = vector(randx, randy)
 
@@ -89,6 +91,7 @@ def move_and_draw_stars(screen):
     screen.fill(color,(star[0],star[1],star[2],star[2]))
     
 def main():
+  SPShip = pygame.image.load(ship).convert_alpha()
   tempVector = vector.fromPoints((STARTspPOS.vX, STARTspPOS.vY),(STARTspPOS.vX + 0, STARTspPOS.vY - 10))
   tempVector = tempVector.normalizeV2()
   pygame.display.set_caption("Nova Blaster")
@@ -100,23 +103,17 @@ def main():
   left = False
   right = False
   shooting = False
-  shotDev = []
   moveX = 570
   moveY = 425
-  global speed
-  speed = 0
-  global topSpeed
-  topSpeed = 30
-  global accelaration
-  accelaration = 1
   init_stars(screen)
   rotationDIRcc = 0
-  power = 1
   health = 3
   score = 0
   makeSuiciders()
   theBox = 0
   hitbox = spaceSHIP(SPSpos, (20,20), screen)
+  invFrames = time() - 1
+  invincible = False
   while True: 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -173,34 +170,43 @@ def main():
         b.bulBlit()
       else:
         bulletList.remove(b)
-        
-    for s in suicideLIST:
-      if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
-        s.displaySuicider()
-      else:
-        suicideLIST.remove(s)
 
     suiciderBulletCollisions = pygame.sprite.groupcollide(suicideLIST, bulletList, True, True)
     
     suiciderShipCollisions = pygame.sprite.spritecollide(hitbox, suicideLIST, True)
 
     powerupShipCollisions = pygame.sprite.spritecollide(hitbox, powerupLIST, True)
-    
     for s in suicideLIST:
       if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
         s.displaySuicider()
       else:
         suicideLIST.remove(s)
-        
     for PX in powerupLIST:
         PX.displayPowerup()
     if len(suicideLIST) < 29:
             makeSuiciders()
     if len(powerupLIST) < 1:
         makePowerup()
+
+    initTime = time()
+
+    
+
     if suiciderShipCollisions:
-      health -= 1
-      suiciderShipCollisions = False
+      if invincible == False:
+        health -= 1
+        suiciderShipCollisions = False
+        invFrames = time() + 3
+      elif invincible == True:
+        suiciderShipCollisions = False
+
+    if initTime <= invFrames:
+      invincible = True
+      SPShip = pygame.image.load(DMGShip).convert_alpha()
+    else:
+      SPShip = pygame.image.load(ship).convert_alpha()
+      invFrames = time() - 1
+      invincible = False
     if health < 1:
       screen.fill((0,0,0))
       screen.blit(GOScreen, (350,400))
