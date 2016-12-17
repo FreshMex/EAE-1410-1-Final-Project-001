@@ -170,13 +170,19 @@ def main():
       else:
         bulletList.remove(b)
 
+        
+    for s in suicideLIST:
+      if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
+        s.displaySuicider()
+      else:
+        suicideLIST.remove(s)
+        
     suiciderBulletCollisions = pygame.sprite.groupcollide(suicideLIST, bulletList, True, True)
     
     suiciderShipCollisions = pygame.sprite.spritecollide(hitbox, suicideLIST, True)
 
     powerupShipCollisions = pygame.sprite.spritecollide(hitbox, powerupLIST, True)
-    for SX in suicideLIST:
-       SX.displaySuicider()
+    
     for PX in powerupLIST:
         PX.displayPowerup()
     if len(suicideLIST) < 29:
