@@ -54,8 +54,8 @@ class suiciders(pygame.sprite.Sprite):
     def __changePOS(self, pos):
 
         self.POS = vector(pos.vX, pos.vY)
-        self.rect.x = pos.vX
-        self.rect.y = pos.vY
+        self.rect.x = pos.vX - 35
+        self.rect.y = pos.vY - 35
 
     
 
