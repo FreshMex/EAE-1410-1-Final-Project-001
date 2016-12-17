@@ -29,8 +29,8 @@ class spaceSHIP(pygame.sprite.Sprite):
         self.rect.y = self.yPOS
 
     def update(self, pos):
-        self.rect.x = pos.vX
-        self.rect.y = pos.vY
+        self.rect.x = pos.vX-10
+        self.rect.y = pos.vY-10
         
         
     def displaySpaceSHIP(self):
