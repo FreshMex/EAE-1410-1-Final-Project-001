@@ -43,7 +43,7 @@ def makeSuiciders():
             v2 = vector.fromPoints((randx, randy), (SPSpos.vX, SPSpos.vY))
             v2 = v2.normalizeV2()
 
-            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 100))
+            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 60))
             numSuicide -= 1
 
 def makePowerup():
