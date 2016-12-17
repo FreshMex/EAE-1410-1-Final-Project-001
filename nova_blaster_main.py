@@ -56,7 +56,7 @@ def makePowerup():
 
     while numPowerup > 0:
         randx = randrange(100, 1100)
-        randy = randrange(1000, 800)
+        randy = randrange(100, 800)
 
         v1 = vector(randx, randy)
 
