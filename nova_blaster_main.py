@@ -46,15 +46,15 @@ def makeSuiciders():
             v2 = vector.fromPoints((randx, randy), (SPSpos.vX, SPSpos.vY))
             v2 = v2.normalizeV2()
 
-            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 100))
+            suicideLIST.add(suiciders(v1, screen, v2, 1.0, 60))
             numSuicide -= 1
 
 def makePowerup():
     numPowerup = 1
 
     while numPowerup > 0:
-        randx = randrange(0, 1200)
-        randy = randrange(0, 900)
+        randx = randrange(100, 1100)
+        randy = randrange(100, 800)
 
         v1 = vector(randx, randy)
 
@@ -173,14 +173,25 @@ def main():
         b.bulBlit()
       else:
         bulletList.remove(b)
+        
+    for s in suicideLIST:
+      if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
+        s.displaySuicider()
+      else:
+        suicideLIST.remove(s)
 
     suiciderBulletCollisions = pygame.sprite.groupcollide(suicideLIST, bulletList, True, True)
     
     suiciderShipCollisions = pygame.sprite.spritecollide(hitbox, suicideLIST, True)
 
     powerupShipCollisions = pygame.sprite.spritecollide(hitbox, powerupLIST, True)
-    for SX in suicideLIST:
-       SX.displaySuicider()
+    
+    for s in suicideLIST:
+      if s.rect.x > -1000 and s.rect.y > -1000 and s.rect.x < 2200 and s.rect.y < 1900:
+        s.displaySuicider()
+      else:
+        suicideLIST.remove(s)
+        
     for PX in powerupLIST:
         PX.displayPowerup()
     if len(suicideLIST) < 29:
